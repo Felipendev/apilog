@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus( HttpStatus.CREATED)
-    public Cliente create(@RequestBody Cliente cliente) {
+    public Cliente create(@Valid @RequestBody Cliente cliente ) {
         log.info("[Start] ClienteController - create");
         Cliente savedClient = clienteRepository.save(cliente);
         log.info("[Finish] ClienteController - create");
@@ -45,7 +47,7 @@ public class ClienteController {
 
     @PutMapping("/{clienteId}")
     @ResponseStatus()
-    public ResponseEntity<Cliente> modify(@PathVariable Long clienteId, @RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> modify(@Valid @PathVariable Long clienteId, @RequestBody Cliente cliente){
         log.info("[Start] ClienteController - modify");
         if (!clienteRepository.existsById(clienteId)) {
             return ResponseEntity.notFound().build();
